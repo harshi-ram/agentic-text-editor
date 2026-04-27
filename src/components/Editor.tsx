@@ -1,4 +1,11 @@
-export default function Editor({ text, setText }) {
+import { Dispatch, SetStateAction } from "react";
+
+interface EditorProps {
+  text: string;
+  setText: Dispatch<SetStateAction<string>>;
+}
+
+export default function Editor({ text, setText }: EditorProps) {
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
   const charCount = text.length;
 

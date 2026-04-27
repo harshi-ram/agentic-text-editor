@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import { checkGrammar } from "../utils/grammar";
 import { analyzeTone } from "../utils/tone";
 import { checkPlagiarism } from "../utils/plagiarism";
@@ -8,14 +8,37 @@ import PlagiarismTab from "./tabs/PlagiarismTab";
 
 const TABS = ["Grammar", "Tone", "Plagiarism"];
 
-export default function Sidebar({ text, setText }) {
-  const [activeTab, setActiveTab] = useState("Grammar");
-  const [grammar, setGrammar] = useState(null);
-  const [tone, setTone] = useState(null);
-  const [plagiarism, setPlagiarism] = useState(null);
-  const [refText, setRefText] = useState("");
+interface GrammarResult {
+  score: number;
+  issues: { original: string; suggestion: string; reason: string }[];
+}
 
-  const [loading, setLoading] = useState(false);
+interface ToneResult {
+  primary: string;
+  tones: string[];
+  scores: { [key: string]: number };
+  summary: string;
+}
+
+interface PlagiarismResult {
+  similarityScore: number;
+  verdict: string;
+  matches: string[];
+}
+
+interface SidebarProps {
+  text: string;
+  setText: Dispatch<SetStateAction<string>>;
+}
+
+export default function Sidebar({ text, setText }: SidebarProps) {
+  const [activeTab, setActiveTab] = useState<string>("Grammar");
+  const [grammar, setGrammar] = useState<GrammarResult | null>(null);
+  const [tone, setTone] = useState<ToneResult | null>(null);
+  const [plagiarism, setPlagiarism] = useState<PlagiarismResult | null>(null);
+  const [refText, setRefText] = useState<string>("");
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleAnalyze = async () => {
     if (!text.trim()) return;

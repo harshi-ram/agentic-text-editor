@@ -1,6 +1,25 @@
-export default function GrammarTab({ result, setText }) {
-  const applyFix = (original, suggestion) =>
-    setText(prev => prev.replace(original, suggestion));
+import { Dispatch, SetStateAction } from "react";
+
+interface GrammarIssue {
+  original: string;
+  suggestion: string;
+  reason: string;
+}
+
+interface GrammarResult {
+  score: number;
+  issues: GrammarIssue[];
+}
+
+interface GrammarTabProps {
+  result: GrammarResult | null;
+  setText: Dispatch<SetStateAction<string>>;
+  text: string;
+}
+
+export default function GrammarTab({ result, setText, text }: GrammarTabProps) {
+  const applyFix = (original: string, suggestion: string) =>
+    setText((prev: string) => prev.replace(original, suggestion));
 
   return (
     <div>

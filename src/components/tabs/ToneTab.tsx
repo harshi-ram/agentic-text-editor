@@ -1,4 +1,4 @@
-const toneColors = {
+const toneColors: { [key: string]: string } = {
   formal: "#185FA5", academic: "#185FA5",
   casual: "#3B6D11", friendly: "#3B6D11",
   neutral: "#5F5E5A",
@@ -6,7 +6,11 @@ const toneColors = {
   persuasive: "#854F0B", emotional: "#993556",
 };
 
-function ToneBadge({ tone }) {
+interface ToneBadgeProps {
+  tone: string;
+}
+
+function ToneBadge({ tone }: ToneBadgeProps) {
   const color = toneColors[tone.toLowerCase()] || "#5F5E5A";
   return (
     <span className="tone-badge" style={{ color, background: `${color}18`, border: `1px solid ${color}33` }}>
@@ -15,7 +19,18 @@ function ToneBadge({ tone }) {
   );
 }
 
-export default function ToneTab({ result }) {
+interface ToneResult {
+  primary: string;
+  tones: string[];
+  scores: { [key: string]: number };
+  summary: string;
+}
+
+interface ToneTabProps {
+  result: ToneResult | null;
+}
+
+export default function ToneTab({ result }: ToneTabProps) {
   return (
     <div>
       <p className="tab-desc">Detects tone based on keyword and sentence pattern analysis.</p>
@@ -33,7 +48,7 @@ export default function ToneTab({ result }) {
           </div>
           <div className="tone-card">
             <p className="tone-card-label">Breakdown</p>
-            {Object.entries(result.scores).map(([k, v]) => (
+            {Object.entries(result.scores).map(([k, v]: [string, number]) => (
               <div key={k} style={{ marginBottom: 8 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 3 }}>
                   <span style={{ textTransform: "capitalize", color: "#6b7280" }}>{k}</span>

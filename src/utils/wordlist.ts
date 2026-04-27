@@ -1,5 +1,5 @@
 // A set of ~1000 common English words used to detect gibberish
-export const COMMON_WORDS = new Set([
+export const COMMON_WORDS: Set<string> = new Set([
   "a","able","about","above","across","act","add","after","again","against","age","ago","agree","all","allow",
   "also","although","always","among","and","another","any","appear","are","area","around","as","ask","at",
   "away","back","be","because","become","been","before","behind","being","below","between","both","but","by",

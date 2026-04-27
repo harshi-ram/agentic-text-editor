@@ -1,7 +1,14 @@
 const OLLAMA_URL = "http://localhost:11434/api/generate";
 const MODEL = "llama3.2";
 
-export async function analyzeTone(text) {
+export interface ToneResult {
+  primary: string;
+  tones: string[];
+  scores: { [key: string]: number };
+  summary: string;
+}
+
+export async function analyzeTone(text: string): Promise<ToneResult> {
   const prompt = `You are a tone analysis assistant. Analyze the tone of the following text and respond with ONLY a JSON object, no explanation, no markdown, no backticks.
 
 The JSON must have exactly this structure:

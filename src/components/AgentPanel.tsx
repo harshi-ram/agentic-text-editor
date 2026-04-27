@@ -1,12 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { runAgent } from "../utils/agent";
 
-export default function AgentPanel({ text, improvedText, setImprovedText }) {
-  const [running, setRunning] = useState(false);
-  const [log, setLog] = useState([]);
-  const logRef = useRef(null);
+interface AgentPanelProps {
+  text: string;
+  improvedText: string;
+  setImprovedText: (text: string) => void;
+}
 
-  const addLog = (msg) => setLog(prev => [...prev, msg]);
+export default function AgentPanel({ text, improvedText, setImprovedText }: AgentPanelProps) {
+  const [running, setRunning] = useState<boolean>(false);
+  const [log, setLog] = useState<string[]>([]);
+  const logRef = useRef<HTMLDivElement>(null);
+
+  const addLog = (msg: string) => setLog(prev => [...prev, msg]);
 
   useEffect(() => {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;

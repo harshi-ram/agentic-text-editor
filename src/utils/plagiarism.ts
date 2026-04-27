@@ -1,15 +1,15 @@
 // N-gram based plagiarism checker
 
-function getNgrams(text, n) {
+function getNgrams(text: string, n: number) {
   const words = text.toLowerCase().match(/\b\w+\b/g) || [];
-  const ngrams = new Set();
+  const ngrams = new Set<string>();
   for (let i = 0; i <= words.length - n; i++) {
     ngrams.add(words.slice(i, i + n).join(" "));
   }
   return ngrams;
 }
 
-function getPhrasesFromText(text, n) {
+function getPhrasesFromText(text: string, n: number) {
   const words = text.toLowerCase().match(/\b\w+\b/g) || [];
   const phrases = [];
   for (let i = 0; i <= words.length - n; i++) {
@@ -18,7 +18,13 @@ function getPhrasesFromText(text, n) {
   return phrases;
 }
 
-export function checkPlagiarism(submitted, reference, n = 5) {
+export interface PlagiarismResult {
+  similarityScore: number;
+  verdict: string;
+  matches: string[];
+}
+
+export function checkPlagiarism(submitted: string, reference: string, n: number = 3): PlagiarismResult {
   const submittedNgrams = getNgrams(submitted, n);
   const referenceNgrams = getNgrams(reference, n);
 

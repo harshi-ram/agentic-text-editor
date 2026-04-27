@@ -1,7 +1,7 @@
 const OLLAMA_URL = "http://localhost:11434/api/generate";
 const MODEL = "llama3.2";
 
-async function runPrompt(prompt, onLog) {
+async function runPrompt(prompt: string, onLog: (msg: string) => void): Promise<string> {
   const res = await fetch(OLLAMA_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -13,7 +13,7 @@ async function runPrompt(prompt, onLog) {
   return data.response?.trim() || "";
 }
 
-export async function runAgent(text, onLog, onResult) {
+export async function runAgent(text: string, onLog: (msg: string) => void, onResult: (result: string) => void): Promise<void> {
   onLog("🔌 Connecting to Ollama...");
 
   // Test connection
